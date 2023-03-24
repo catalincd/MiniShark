@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+:root{
+  --background: #2f004fff;
+  --menu-background: #ada8b6ff;
+  
+  --element: #eabfcbff;
+  --element-hover: rgb(156, 90, 108);
+  --element-border: rgb(247, 26, 85);
+
+  --border: #5f0a87ff;
+
+  --accept-btn: rgb(117, 216, 60);
+  --accept-btn-border: rgb(77, 148, 36);
+
+  /*   Pallete 1   */
+  --fairy-tale: #eabfcbff;
+  --puce: #c191a1ff;
+  --magenta-haze: #a4508bff;
+  --indigo: #5f0a87ff;
+  --russian-violet: #2f004fff;
+ 
+  /*   Pallete 2   */
+  --honeydew: #eff8e2ff;
+  --timberwolf: #cecfc7ff;
+  --rose-quartz: #ada8b6ff;
+  --russian-violet: #23022eff;
+  --tekhelet: #573280ff;
+
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html{
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+}
+
+body{
+  background-color: var(--background);
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+
+.mainPage{
+  width: 100vw;
+  height: 100vh;
+}
+
+
+#devicePicker{
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  font-weight: 300;
+  color: white;
+}
+
+.deviceList{
+  display: flex;
+  flex-direction: row;
+}
+
+.device {
+  cursor: pointer;
+  margin: 1rem auto;
+  height: 3rem;
+  position: relative;
+  border-radius: 0.5rem;
+  background-color: var(--element);
+  color: black;
+  transition: all 200ms ease-in-out 0ms;
+}
+
+.device.selected {
+  border: 2px solid var(--element-border);
+}
+
+.device:hover{
+  background-color: var(--element-hover);
+}
+
+.device > p {
+  position: absolute;
+}
+
+.device > .deviceName {
+  left: 1rem;
+  top: 0%;
+}
+
+.device > .deviceIp {
+  right: 1rem;
+  top: 0%;
+}
+
+#centerDevicePicker{
+  width: 20rem;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  background-color: var(--menu-background);
+}
+
+.rounded-20{
+  border-radius: 2rem;
+  border: 2px var(--border) solid;
+}
+
+.rounded-15{
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  border: 2px var(--border) solid;
+}
+
+.rounded-10{
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 2px var(--border) solid;
+}
+
+.acceptBtn {
+  margin: 0.75rem auto;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  font-size: 1.25rem;
+  height: 2.5rem;
+  width: 10rem;
+  border-radius: 0.5rem;
+  background-color: var(--accept-btn);
+  border: 2px solid var(--accept-btn-border);
+}
