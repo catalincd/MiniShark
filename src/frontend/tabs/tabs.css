@@ -1,0 +1,202 @@
+@keyframes tabEntry {
+    0% {
+        width: 0rem;
+        transform: translateX(-3rem);
+        opacity: 0.2;
+        scale: 0.5;
+        z-index: -1;
+        margin-right: 0.5rem;
+    }
+
+    100% {
+        width: 12rem;
+        transform: translateX(0);
+        opacity: 1;
+        z-index: 5;
+        scale: 1;
+        margin-right: 0.5rem;
+    }
+}
+
+@keyframes tabClose {
+    0% {
+        width: 12rem;
+        transform: translateX(0);
+        opacity: 1;
+        z-index: 5;
+        scale: 1;
+        margin-right: 0.5rem;
+    }
+
+    100% {
+        width: 0rem;
+        transform: translateX(-3rem);
+        opacity: 0.2;
+        scale: 0.5;
+        z-index: -1;
+        margin-right: 0;
+    }
+}
+
+
+#tabs {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    width: 100%;
+    height: 3.5rem;
+    background-color: #888888;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.tab {
+    width: 12rem;
+    height: 2.5rem;
+    background-color: #BBBBBB;
+    border: none;
+    border-radius: 0.5rem;
+    margin-right: 0.5rem;
+    color: white;
+    white-space: nowrap;
+    position: relative;
+    animation: tabEntry 500ms ease 0ms 1 normal forwards;
+    overflow: hidden;
+}
+
+
+.closedTab {
+    animation: tabClose 500ms ease 0ms 1 normal forwards;
+}
+
+.reopenedTab {
+    animation: tabEntry 500ms ease 0ms 1 normal forwards;
+}
+
+.tab>.tabTitle {
+    z-index: 5;
+    display: grid;
+    justify-content: left;
+    align-items: center;
+    width: calc(100% - 2.3rem);
+    height: 100%;
+    padding-left: 0.5rem;
+
+    position: absolute;
+    left: 0rem;
+    top: 0.25rem;
+    transform: translateY(-50%);
+}
+
+.tab>.tabClose {
+    z-index: 8;
+    color: white;
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    right: 0.15rem;
+    top: 1.25rem;
+    transform: translateY(-50%);
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.tab>.tabClose:hover {
+    color: red;
+    font-weight: bold;
+}
+
+.tab>.tabGradient {
+    z-index: 7;
+    position: absolute;
+    height: 100%;
+    top: 0;
+    right: 0;
+    width: max(30%, 3.5rem);
+    background: rgb(187, 187, 187);
+    background: linear-gradient(90deg, rgba(187, 187, 187, 0) 0%, rgba(187, 187, 187, 1) 50%);
+}
+
+.activeTab {
+    border: thin solid rgb(70, 70, 70);
+}
+
+#newTab {
+    height: 2rem;
+    width: 2rem;
+    color: white;
+    cursor: pointer;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+#newTab:hover {
+    color: black;
+    background-color: #0e0e0e88;
+    border-radius: 0.35rem;
+}
+
+#newTab:active {
+    color: green;
+}
+
+
+
+
+#newTabWrapper {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+}
+
+#openFileWrapper {
+    height: 100%;
+    width: 50%;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+#chooseInterfaceWrapper {
+    height: 100%;
+    width: 50%;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+
+label.fileLabel input[type="file"] {
+    display: none;
+}
+
+.fileLabel {
+    cursor: pointer;
+    border-radius: 0.35rem;
+    padding: 0.5rem 1rem;
+    background: #BBBBBB;
+    display: inline-block;
+}
+
+.fileLabel:hover {
+    background: #ffffff;
+}
+
+.fileLabel:active {
+    background: #9fa1a0;
+}
+
+.fileLabel:invalid+span {
+    color: #000000;
+}
+
+.fileLabel:valid+span {
+    color: #ffffff;
+}

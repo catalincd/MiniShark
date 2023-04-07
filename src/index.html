@@ -2,22 +2,31 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>MiniShark v0.1</title>
+    <title>MiniShark v0.2</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="frontend/tabs/tabs.css" />
   </head>
   <body>
     <div id="mainWrapper">
-      <div id="devicePicker" class="mainPage">
-          <div id="centerDevicePicker" class="rounded-10">
-            <h3>Choose a Network Interface</h3>
-            <div id="deviceList"></div>
-            <button class="acceptBtn">Next</button>
-          </div>
-      </div>
       <div id="dashboard" class="mainPage">
-          dashboard
+          <div id="tabs">
+    
+            <div id="newTab" onclick="addNewTab()">
+              <span class="material-symbols-outlined">
+                add
+              </span>
+            </div>
+
+          </div>
+          
+          <div id="mainboard"></div>
       </div>
+
+      
+
     </div>
     <script src="renderer.js"></script>
+    <script src="frontend/tabs/tabs.js"></script>
   </body>
 </html>
