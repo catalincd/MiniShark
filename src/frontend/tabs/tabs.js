@@ -5,7 +5,7 @@ var tabsElement;
 var newTabButton;
 var lastTab = 0
 var tabsHistory = []
-var activeIdx = -1
+var activeTabIdx = -1
 
 var newTabHtml = ""
 var tabLock = false
@@ -18,14 +18,14 @@ const addNewTab = (title = "New Tab") => {
     newTabElement.id = `tab${lastTab}`
     newTabElement.className = `tab`
     newTabElement.innerHTML = ` <p class="tabTitle" data-tabid="${lastTab}" onclick="selectTabElement(this)">${title}</p>
-                                <div class="tabGradient"></div>
+                                <div class="tabGradient" data-tabid="${lastTab}" onclick="selectTabElement(this)"></div>
                                 <div class="tabClose" data-tabid="${lastTab}" onclick="closeTab(this)">
                                     <span class="material-symbols-outlined" >
                                         close
                                     </span>
                                 </div>`
 
-    tabsData.push({ id: lastTab, data: null })
+    tabsData.push({ id: lastTab, data: null, animated: true})
     tabsElementArray.push(newTabElement)
     tabsElement.insertBefore(newTabElement, newTabButton);
 
@@ -36,6 +36,11 @@ const addNewTab = (title = "New Tab") => {
 }
 
 
+const getCurrentTabData = () => {
+    return tabsData[activeTabIdx].data
+}
+
+
 const selectFile = (element) => {
 
     if (element.files && element.files[0]) {
@@ -43,6 +48,7 @@ const selectFile = (element) => {
         reader.onload = (e) => {
             output = e.target.result
             parseLoadedBytes(output)
+            setTabTitle(activeTabIdx, element.files[0].name.toString())
             tabLock = false
         }
         tabLock = true
@@ -54,14 +60,16 @@ const selectFile = (element) => {
 
 const parseLoadedBytes = async (xts) => {
     const parsed = await window.API.readPcapBytes(xts)
-    tabsData[activeIdx].data = parsed
-    tabsData[activeIdx].html = getHtmlFromData(parsed)
-    selectTab(activeIdx)
+
+    tabsData[activeTabIdx].data = parsed
+    tabsData[activeTabIdx].html = getHtmlFromData(parsed)
+    
+
+    selectTab(activeTabIdx)
+    tabsData[activeTabIdx].animated = false
 }
 
-const getHtmlFromData = (data) => {
-    return JSON.stringify(data)
-}
+
 
 const selectTabElement = (element) => {
     selectTab(element.dataset.tabid)
@@ -71,23 +79,30 @@ const selectTab = (idx) => {
     if (tabLock)
         return
 
-    if (activeIdx != idx) {
+    if (activeTabIdx != idx) {
         tabsHistory.push(idx)
-        activeIdx = idx
+        activeTabIdx = idx
         for (var i = 0; i < tabsElementArray.length; i++) {
             tabsElementArray[i].classList.remove("activeTab")
         }
         tabsElementArray[idx].classList.add("activeTab")
     }
 
-    if (tabsData[activeIdx].data == undefined || tabsData[activeIdx].data == null) {
+    if (tabsData[activeTabIdx].data == undefined || tabsData[activeTabIdx].data == null) {
         mainBoardElement.innerHTML = newTabHtml
     }
     else {
-        mainBoardElement.innerHTML = tabsData[activeIdx].html
+        mainBoardElement.innerHTML = reparseHtml(tabsData[activeTabIdx].html, tabsData[activeTabIdx])
+        if(tabsData[activeTabIdx].currentPacket != undefined)
+        {
+            hotSelectPacket(tabsData[activeTabIdx].currentPacket)
+        }
     }
 
+}
 
+const setCurrentPacketSelected = (idx) => {
+    tabsData[activeTabIdx].currentPacket = idx
 }
 
 
@@ -96,6 +111,16 @@ const closeTab = (element) => {
     console.log(`Close: ${element.dataset["tabid"]}`)
 
     const idx = parseInt(element.dataset["tabid"])
+
+    tabsHistory = tabsHistory.filter(
+        tabIdx => tabIdx != idx
+    )
+
+    if(idx == activeTabIdx)
+    {
+        selectTab(tabsHistory[tabsHistory.length - 1])
+    }
+
     
     //dont do this, will reopen eventually
     //maybe remove innerHTML???
@@ -110,7 +135,10 @@ const closeTab = (element) => {
 }
 
 
-
+const setTabTitle = (idx, title) => {
+    //maybe set in data as well?
+    document.getElementById(`tab${idx}`).querySelector(".tabTitle").innerHTML = title
+}
 
 
 window.addEventListener("load", async () => {

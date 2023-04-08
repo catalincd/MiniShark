@@ -14,12 +14,12 @@ const getHeadersFromData = (packet, encoding = "LE") => {
 
     //check for other stuff like ipv6 here...
     
-    const ipv4 = {
+    const ipvx = {
         destination: bytesToIp(packet.subarray(12 + ETHER_SIZE, 16 + ETHER_SIZE)),
         source: bytesToIp(packet.subarray(16 + ETHER_SIZE, 20 + ETHER_SIZE))
     }
 
-    return {ether, ipv4}
+    return {ether, ipvx}
 }
 
 const bytesToIp = (xts) => {
@@ -95,18 +95,19 @@ const readFromBytes = (file) => {
     return {header, encoding, allPackets}
 }
 
-const bytesToPacket = (xts, encoding = "LE") => {
+const bytesToPacket = (bytes, encoding = "LE") => {
     //should be sure that it is a good packet...
     const header = {
-        timestampSeconds: xts['readUInt32' + encoding](0, true),
-        timestampMicroseconds: xts['readUInt32' + encoding](4, true),
-        capturedLength: xts['readUInt32' + encoding](8, true),
-        originalLength: xts['readUInt32' + encoding](12, true)
+        timestampSeconds: bytes['readUInt32' + encoding](0, true),
+        timestampMicroseconds: bytes['readUInt32' + encoding](4, true),
+        capturedLength: bytes['readUInt32' + encoding](8, true),
+        originalLength: bytes['readUInt32' + encoding](12, true)
     };
 
-    const data = xts.slice(PACKET_HEADER_LENGTH, header.capturedLength)
+    const data = bytes.slice(PACKET_HEADER_LENGTH, header.capturedLength)
+    const headers = getHeadersFromData(data, encoding)
 
-    return {header, data}
+    return {header, data, bytes, ...headers}
 }
 
 const pcapToBytes = (header, packets, encoding = "LE") => {

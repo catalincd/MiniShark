@@ -3,14 +3,19 @@
         <form class="openFileForm" action="" method="">
             <label class="fileLabel">
                 <input type="file" required onchange="selectFile(this)" />
-                <span>Open PCAP File</span>
+                <span class="material-symbols-outlined">
+                    folder_open
+                    </span>
+                <span>Open PCAP</span>
             </label>
         </form>
     </div>
     
-    <div id="chooseInterfaceWrapper">
-        eth0
-        wlan0
-        lo
+    <div id="chooseInterfaceWrapper" style="color: white">
+        <ul>
+            <li>eth0</li>
+            <li>wlan0</li>
+            <li>lo</li>
+        </ul>
     </div>
 </div>

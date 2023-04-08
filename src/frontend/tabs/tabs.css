@@ -53,7 +53,7 @@
 .tab {
     width: 12rem;
     height: 2.5rem;
-    background-color: #BBBBBB;
+    background-color: rgb(117,117,117);
     border: none;
     border-radius: 0.5rem;
     margin-right: 0.5rem;
@@ -81,7 +81,7 @@
     width: calc(100% - 2.3rem);
     height: 100%;
     padding-left: 0.5rem;
-
+    text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5);
     position: absolute;
     left: 0rem;
     top: 0.25rem;
@@ -89,6 +89,7 @@
 }
 
 .tab>.tabClose {
+    text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.25);
     z-index: 8;
     color: white;
     cursor: pointer;
@@ -115,12 +116,17 @@
     top: 0;
     right: 0;
     width: max(30%, 3.5rem);
+    background: rgb(117, 117, 117);
+    background: linear-gradient(90deg, rgba(117, 117, 117, 0) 0%, rgba(117, 117, 117, 1) 50%);
+}
+
+.tab.activeTab>.tabGradient {
     background: rgb(187, 187, 187);
     background: linear-gradient(90deg, rgba(187, 187, 187, 0) 0%, rgba(187, 187, 187, 1) 50%);
 }
 
 .activeTab {
-    border: thin solid rgb(70, 70, 70);
+    background: rgb(187, 187, 187);
 }
 
 #newTab {
@@ -134,13 +140,12 @@
 }
 
 #newTab:hover {
-    color: black;
-    background-color: #0e0e0e88;
+    background-color: #58585888;
     border-radius: 0.35rem;
 }
 
 #newTab:active {
-    color: green;
+    color: #666;
 }
 
 
@@ -178,15 +183,22 @@ label.fileLabel input[type="file"] {
 }
 
 .fileLabel {
+    text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.4);
+    color: white;
     cursor: pointer;
     border-radius: 0.35rem;
     padding: 0.5rem 1rem;
-    background: #BBBBBB;
+    padding-right: 1.2rem;
+    background: #999999;
     display: inline-block;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 0.5rem;
+    align-items: center;
 }
 
 .fileLabel:hover {
-    background: #ffffff;
+    background: #BBBBBB;
 }
 
 .fileLabel:active {
