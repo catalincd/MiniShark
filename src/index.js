@@ -16,8 +16,9 @@ const createWindow = () => {
     height: 800,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration: true,
-      contextIsolation: true,
+      nodeIntegration: false,
+      contextIsolation: false,
+      sandbox: false
     },
   });
 
@@ -53,3 +54,6 @@ app.on('window-all-closed', () => {
   }
 });
 
+
+
+var coxid = mshark.getNewInstance()

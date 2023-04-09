@@ -55,10 +55,11 @@
 
 #packetTableHead{
     padding-left: 0.5rem;
+    padding-right: 1rem;
     height: 2rem;
     border-bottom: 2px white solid;
     display: grid;
-    grid-template-columns: 5% 12% 20% 20% 12% 12%;
+    grid-template-columns: 5% 7% 20% 20% 10% 10%;
     grid-gap: 1.5rem;
     align-items: center;
     justify-content: start;
@@ -71,8 +72,9 @@
     height: 2rem;
     background-color: #888888;
     border-radius: 0.35rem;
+    position: relative;
     display: grid;
-    grid-template-columns: 5% 12% 20% 20% 12% 12%;
+    grid-template-columns: 5% 7% 20% 20% 10% 10%;
     grid-gap: 1.5rem;
     align-items: center;
     justify-content: start;
@@ -93,6 +95,39 @@
 .packetLine.static{
     animation: none;
     opacity: 1;
+}
+
+.packetLine>.packetControls{
+    display: none;
+    width: 3%;
+    max-height: 1.5rem;
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    text-align: center;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.5);
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.25rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.packetLine:hover>.packetControls{
+    display: grid;
+}
+
+.packetLine>.packetControls>span{
+    width: 100%;
+    cursor: pointer;
+}
+
+.packetLine>.packetControls>.deleteButton:hover{
+    color: red;
+}
+
+.packetLine>.packetControls>.copyButton:hover{
+    color: white;
 }
 
 .packetCell{

@@ -5,6 +5,7 @@ var tabsElement;
 var newTabButton;
 var lastTab = 0
 var tabsHistory = []
+var interfaces = null
 var activeTabIdx = -1
 
 var newTabHtml = ""
@@ -62,6 +63,7 @@ const parseLoadedBytes = async (xts) => {
     const parsed = await window.API.readPcapBytes(xts)
 
     tabsData[activeTabIdx].data = parsed
+    console.log(tabsData[activeTabIdx].data)
     tabsData[activeTabIdx].html = getHtmlFromData(parsed)
     
 
@@ -90,6 +92,7 @@ const selectTab = (idx) => {
 
     if (tabsData[activeTabIdx].data == undefined || tabsData[activeTabIdx].data == null) {
         mainBoardElement.innerHTML = newTabHtml
+        loadInterfaces()
     }
     else {
         mainBoardElement.innerHTML = reparseHtml(tabsData[activeTabIdx].html, tabsData[activeTabIdx])
@@ -141,13 +144,50 @@ const setTabTitle = (idx, title) => {
 }
 
 
+
+const preloadInterfaces = async() => {
+    interfaces = await window.API.getInterfaces()
+}
+
+const getIcon = (interface) => {
+    
+    if(interface.indexOf("w") != -1)
+        return "wifi"
+
+    return "lan"
+}
+
+const loadInterfaces = async () => {
+    const names = Object.keys(interfaces)
+    let deviceList = document.getElementById("deviceList");
+    
+    var html = ""
+
+    for(var i=0;i<names.length;i++)
+    {
+        html += `<div class="interface" onclick="openInterface(this)" data-id="${i}">
+                    <p class="deviceName">
+                        <span class="material-symbols-outlined">
+                            ${getIcon(names[i])}
+                        </span>
+                        ${names[i]}
+                    </p>
+                    <p class="deviceIp">${interfaces[names[i]][0].address}</p>
+                </div>`
+    }
+
+    deviceList.innerHTML = html
+}
+
+
 window.addEventListener("load", async () => {
+
+    preloadInterfaces()
 
     tabsElement = document.getElementById("tabs")
     newTabButton = document.getElementById("newTab")
     mainBoardElement = document.getElementById("mainboard")
     newTabHtml = await window.API.readStringFile('/frontend/html/newTab.html')
-
 
     addNewTab("New Tab")
 })

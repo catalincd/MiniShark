@@ -31,6 +31,10 @@
     line-height: 1.25rem;
 }
 
+#headersList > li {
+    
+}
+
 #hexWrapper{
     overflow-x: visible;
     overflow-y: scroll;

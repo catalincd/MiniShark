@@ -20,7 +20,7 @@ const getHtmlFromData = (data) => {
                                 <p class="packetNum">Nr</p>
                             </div>
                             <div class="packetCell tableHead">
-                                <p class="packetTime">Timestamp</p>
+                                <p class="packetTime">Time</p>
                             </div>
                             <div class="packetCell tableHead">
                                 <p class="packetSrc">Source</p>
@@ -83,7 +83,14 @@ const packetToHtml = (packet, num, originalSeconds) => {
                 <div class="packetCell">
                     <p class="packetLength">${packet.header.capturedLength}</p>
                 </div>
-
+                <div class="packetControls">
+                    <span class="material-symbols-outlined copyButton">
+                        content_copy
+                    </span>
+                    <span class="material-symbols-outlined deleteButton">
+                        delete
+                    </span>
+                </div>
             </div>`
 }
 
