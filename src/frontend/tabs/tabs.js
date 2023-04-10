@@ -6,6 +6,7 @@ var newTabButton;
 var lastTab = 0
 var tabsHistory = []
 var interfaces = null
+var interfaceNames = null
 var activeTabIdx = -1
 
 var newTabHtml = ""
@@ -26,7 +27,7 @@ const addNewTab = (title = "New Tab") => {
                                     </span>
                                 </div>`
 
-    tabsData.push({ id: lastTab, data: null, animated: true})
+    tabsData.push({ id: lastTab, data: null, animated: true, closed: false})
     tabsElementArray.push(newTabElement)
     tabsElement.insertBefore(newTabElement, newTabButton);
 
@@ -109,7 +110,7 @@ const setCurrentPacketSelected = (idx) => {
 }
 
 
-const closeTab = (element) => {
+const closeTab = async (element) => {
     //REMOVE
     console.log(`Close: ${element.dataset["tabid"]}`)
 
@@ -130,11 +131,13 @@ const closeTab = (element) => {
     //tabsElementArray.splice(idx, 1)
     
     
-    
+    tabsData[idx].closed = true
     document.getElementById(`tab${idx}`).classList.add("closedTab");
     setTimeout(() => {
         document.getElementById(`tab${idx}`).style.display = "none";
     }, 500)
+
+    await window.API.closeInstance(tabsData[idx].subscriberId)
 }
 
 
@@ -145,39 +148,6 @@ const setTabTitle = (idx, title) => {
 
 
 
-const preloadInterfaces = async() => {
-    interfaces = await window.API.getInterfaces()
-}
-
-const getIcon = (interface) => {
-    
-    if(interface.indexOf("w") != -1)
-        return "wifi"
-
-    return "lan"
-}
-
-const loadInterfaces = async () => {
-    const names = Object.keys(interfaces)
-    let deviceList = document.getElementById("deviceList");
-    
-    var html = ""
-
-    for(var i=0;i<names.length;i++)
-    {
-        html += `<div class="interface" onclick="openInterface(this)" data-id="${i}">
-                    <p class="deviceName">
-                        <span class="material-symbols-outlined">
-                            ${getIcon(names[i])}
-                        </span>
-                        ${names[i]}
-                    </p>
-                    <p class="deviceIp">${interfaces[names[i]][0].address}</p>
-                </div>`
-    }
-
-    deviceList.innerHTML = html
-}
 
 
 window.addEventListener("load", async () => {

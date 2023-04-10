@@ -1,6 +1,5 @@
 const Cap = require('cap').Cap;
 const parser = require('./parser')
-
  
 var capInstances = []
 var lastCap = 0
@@ -13,13 +12,23 @@ const getNewInstance = (ip = "192.168.1.254", filter = "tcp") => {
     var cap = new Cap();
     const linkType = cap.open(device, filter, bufSize, buffer);
     const thisId = lastCap
-    
+
+
+    cap.providerId = thisId
     cap.setMinBytes && cap.setMinBytes(0);
     
-    cap.on('packet', function(bytesNum, isTrunc) {
-        var thisPacket = parser.readFromBytes(buffer.slice(0, bytesNum))
-        capInstances[thisId].packets.push(thisPacket)
-        console.log(thisPacket)
+    cap.on('packet', (bytesNum, isTrunc) => {
+        if(capInstances[cap.providerId] == null)
+            return
+
+        var thisPacket = buffer.slice(0, bytesNum)
+        var hotFixedPacket = parser.hotFixCapPacket(thisPacket, bytesNum, "BE")
+        var packetData = parser.bytesToPacket(hotFixedPacket, "BE")
+
+        capInstances[cap.providerId].packets.push(packetData)
+        capInstances[cap.providerId].packetsNum++
+
+        
     });
 
     var packets = []
@@ -29,4 +38,22 @@ const getNewInstance = (ip = "192.168.1.254", filter = "tcp") => {
 }
 
 
+const getPackets = (id) => {
+    var packets = capInstances[id].packets
+    var packetsCopy = [...packets]
+    capInstances[id].packets = []
+    return packetsCopy
+}
+
+const closeInstance = (id) => {
+
+    console.log("HANDLE CLOSE")
+
+    capInstances[id].cap.close()
+    capInstances[id] = null
+}
+
+
 exports.getNewInstance = getNewInstance
+exports.getPackets = getPackets
+exports.closeInstance = closeInstance

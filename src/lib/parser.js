@@ -3,7 +3,7 @@ var fs = require('fs');
 var GLOBAL_HEADER_LENGTH = 24; 
 var PACKET_HEADER_LENGTH = 16; 
 
-const getHeadersFromData = (packet, encoding = "LE") => {
+const getHeadersFromData = (packet, encoding = "BE") => {
     const ETHER_SIZE = 14
 
     const ether = {
@@ -64,7 +64,7 @@ const readFromBytes = (file) => {
     console.log(file)
     
     const magicNumber = file.toString('hex', 0, 4)
-    var encoding = "LE"
+    var encoding = "BE"
 
     if (magicNumber == "a1b2c3d4")
         encoding = "BE"
@@ -95,7 +95,27 @@ const readFromBytes = (file) => {
     return {header, encoding, allPackets}
 }
 
-const bytesToPacket = (bytes, encoding = "LE") => {
+
+const hotFixCapPacket = (bytes, length, encoding = "BE") => {
+    const buffer = Buffer.allocUnsafe(PACKET_HEADER_LENGTH);
+    
+    var ts = Date.now()
+
+    const timestampSeconds = Math.floor(ts/1000)
+    const timestampMicroseconds = (ts - (timestampSeconds * 1000)) * 1000
+
+    buffer['writeUInt32' + encoding](timestampSeconds, 0)
+    buffer['writeUInt32' + encoding](timestampMicroseconds, 4)
+    buffer['writeUInt32' + encoding](length, 8)
+    buffer['writeUInt32' + encoding](length, 12)
+
+    return Buffer.concat([buffer, bytes])
+}
+
+const bytesToPacket = (bytes, encoding = "BE") => {
+
+    console.log(bytes)
+
     //should be sure that it is a good packet...
     const header = {
         timestampSeconds: bytes['readUInt32' + encoding](0, true),
@@ -110,7 +130,7 @@ const bytesToPacket = (bytes, encoding = "LE") => {
     return {header, data, bytes, ...headers}
 }
 
-const pcapToBytes = (header, packets, encoding = "LE") => {
+const pcapToBytes = (header, packets, encoding = "BE") => {
     const buffer = Buffer.allocUnsafe(24);
 
     buffer['writeUInt32' + encoding](header["magicNumber"], 0)
@@ -127,7 +147,7 @@ const pcapToBytes = (header, packets, encoding = "LE") => {
 
 }
 
-const packetToBytes = (packet, encoding = "LE") => {
+const packetToBytes = (packet, encoding = "BE") => {
     const header = packet["header"]
     const buffer = Buffer.allocUnsafe(16);
     
@@ -147,3 +167,6 @@ exports.readFromFile = readFromFile
 exports.getHeadersFromData = getHeadersFromData
 exports.bytesToIp = bytesToIp
 exports.bytesToMac = bytesToMac
+exports.bytesToPacket = bytesToPacket
+exports.hotFixCapPacket = hotFixCapPacket
+

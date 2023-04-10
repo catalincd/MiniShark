@@ -3,15 +3,22 @@ const getHtmlFromData = (data) => {
 
     var packetsHtml = ""
 
+    //maybe dont do that
+    /*
     if (data.allPackets.length <= 0) {
         console.log("COX FILE NO PACKETS")
         return
     }
+    */
 
-    const originalSeconds = data.allPackets[0].header.timestampSeconds
+    var originalSeconds = 0
+    
+    if(data != null){
+        originalSeconds = data.allPackets[0].header.timestampSeconds
 
-    for (var i = 0; i < data.allPackets.length; i++) {
-        packetsHtml += packetToHtml(data.allPackets[i], i, originalSeconds)
+        for (var i = 0; i < data.allPackets.length; i++) {
+            packetsHtml += packetToHtml(data.allPackets[i], i, originalSeconds)
+        }
     }
 
 
@@ -43,6 +50,7 @@ const getHtmlFromData = (data) => {
                         <div id="packetsTable">
                             <div id="tableTopGradient"></div>
                             ${packetsHtml}
+                            <div id="replacer"></div>
                             <div id="tableBottomGradient"></div>
                         </div>
                     </div>
@@ -63,8 +71,8 @@ const getHtmlFromData = (data) => {
 }
 
 
-const packetToHtml = (packet, num, originalSeconds) => {
-    return `<div class="packetLine" data-packetid="${num}" onclick="selectPacketElement(this)" style="animation-delay: ${Math.min(num * 35, 1000)}ms" data-idx="${num}">
+const packetToHtml = (packet, num, originalSeconds, animate = true) => {
+    return `<div class="packetLine ${animate? "":"static"}" data-packetid="${num}" onclick="selectPacketElement(this)" style="animation-delay: ${Math.min(num * 35, 1000)}ms" data-idx="${num}">
                 <div class="packetCell">
                     <p class="packetNum">${num + 1}</p>
                 </div>
@@ -92,6 +100,18 @@ const packetToHtml = (packet, num, originalSeconds) => {
                     </span>
                 </div>
             </div>`
+}
+
+
+const replacer = `<div id="replacer"></div>`
+
+const addHtml = (html, newHtml) => {
+    console.log("ORIGINAL/REPLACED")
+    
+    const replaced = html.replace(replacer, newHtml + replacer)
+    console.log(html)
+    console.log(replaced)
+    return replaced
 }
 
 const reparseHtml = (html, { animated }) => {

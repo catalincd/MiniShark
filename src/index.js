@@ -16,8 +16,8 @@ const createWindow = () => {
     height: 800,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration: false,
-      contextIsolation: false,
+      nodeIntegration: true,
+      contextIsolation: true,
       sandbox: false
     },
   });
@@ -33,6 +33,10 @@ const handleReadPcapBytes = (event, data) => parser.readFromBytes(Buffer.from(da
 const handleReadStringFile = (event, data) => {
   return fs.readFileSync(__dirname + data, 'utf8')
 }
+const handleNewInstance = (event, {ip, filter}) => mshark.getNewInstance(ip, filter)
+const handleInstacePackets = (event, id) => mshark.getPackets(id)
+const handleCloseInstance = (event, id) => mshark.closeInstance(id)
+
 
 
 app.whenReady().then(() => {
@@ -40,6 +44,9 @@ app.whenReady().then(() => {
   ipcMain.handle('os:readStringFile', handleReadStringFile)
   ipcMain.handle('os:readFile', handleReadFile)
   ipcMain.handle('os:readPcapBytes', handleReadPcapBytes)
+  ipcMain.handle('net:getNewInstance', handleNewInstance)
+  ipcMain.handle('net:getInstacePackets', handleInstacePackets)
+  ipcMain.handle('net:closeInstance', handleCloseInstance)
 
   createWindow()
   app.on('activate', function () {
@@ -56,4 +63,4 @@ app.on('window-all-closed', () => {
 
 
 
-var coxid = mshark.getNewInstance()
+//var coxid = mshark.getNewInstance()
