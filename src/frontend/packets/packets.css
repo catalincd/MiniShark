@@ -23,7 +23,7 @@
     overflow-y: scroll;
     overflow-x: hidden;
     width: 100%;
-    height: calc(100vh - 7rem);
+    height: calc(100vh - 7rem - 5rem);
     display: grid;
     grid-template-columns: 1fr;
     align-content: start;
@@ -59,7 +59,7 @@
     height: 2rem;
     border-bottom: 2px white solid;
     display: grid;
-    grid-template-columns: 5% 7% 20% 20% 10% 10%;
+    grid-template-columns: 5% 7% 18% 20% 7% 4% 13%;
     grid-gap: 1.5rem;
     align-items: center;
     justify-content: start;
@@ -74,7 +74,7 @@
     border-radius: 0.35rem;
     position: relative;
     display: grid;
-    grid-template-columns: 5% 7% 20% 20% 10% 10%;
+    grid-template-columns: 5% 7% 18% 18% 7% 4% 13%;
     grid-gap: 1.5rem;
     align-items: center;
     justify-content: start;
@@ -82,6 +82,10 @@
     opacity: 0;
     animation: packetLineEntry 150ms ease 1 forwards;
     transition: background-color 0.1s ease 0s;
+}
+
+.packetInfo{
+    white-space: nowrap;
 }
 
 .packetLine:hover{
@@ -160,7 +164,7 @@
 #packetsScrollBarWrapper {
     display: none;
     width: 1rem;
-    height: calc(100vh - 4.5rem);
+    height: calc(100vh - 4.5rem - 5rem);
     background-color: #AAAAAA;
     padding: 0.5rem;
     border-radius: 0.25rem;

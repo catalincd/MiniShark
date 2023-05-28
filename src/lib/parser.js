@@ -114,7 +114,7 @@ const hotFixCapPacket = (bytes, length, encoding = "BE") => {
 
 const bytesToPacket = (bytes, encoding = "BE") => {
 
-    console.log(bytes)
+    // console.log(bytes)
 
     //should be sure that it is a good packet...
     const header = {

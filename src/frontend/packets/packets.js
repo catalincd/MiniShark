@@ -33,7 +33,7 @@ const selectPacket = (idx, activeElement) => {
     hotSelectPacket(idx)
 }
 
-const hotSelectPacket = (idx) => {
+const hotSelectPacket = (idx) => { //////TO DO: add html class to selected element
     activePacketIdx = idx
     hexColumnsElement = document.getElementById("hexNumColumn")
     hexValuesElement = document.getElementById("hexValues")
@@ -42,7 +42,7 @@ const hotSelectPacket = (idx) => {
 
     const data = getCurrentTabData()
     const thisPacket = data.allPackets[idx]
-    console.log(data)
+    // console.log(data)
     setCurrentPacketSelected(idx)
 
 

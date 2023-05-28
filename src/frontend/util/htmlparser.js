@@ -1,7 +1,15 @@
+var toolbarHtml = ""
+
+window.addEventListener("load", async () => {
+    toolbarHtml = await window.API.readStringFile('/frontend/html/toolbar.html')
+})
+
+
 const getHtmlFromData = (data) => {
     console.log(data)
 
     var packetsHtml = ""
+    
 
     //maybe dont do that
     /*
@@ -15,9 +23,10 @@ const getHtmlFromData = (data) => {
     
     if(data != null){
         originalSeconds = data.allPackets[0].header.timestampSeconds
+        originalMicroSeconds = data.allPackets[0].header.timestampMicroseconds
 
         for (var i = 0; i < data.allPackets.length; i++) {
-            packetsHtml += packetToHtml(data.allPackets[i], i, originalSeconds)
+            packetsHtml += packetToHtml(data.allPackets[i], i, originalSeconds, originalMicroSeconds)
         }
     }
 
@@ -39,45 +48,51 @@ const getHtmlFromData = (data) => {
                                 <p class="packetProtocol">Protocol</p>
                             </div>
                             <div class="packetCell tableHead">
-                                <p class="packetLength">Length</p>
+                                <p class="packetLength">Len</p>
+                            </div>
+                            <div class="packetCell tableHead">
+                                <p class="packetInfo">Info</p>
                             </div>
                         </div>`
 
-    return `<div id="mainGrid">
-                <div id="packetsWrapper">
-                    <div id="packetsTableWrapper" class="wrapper">
-                        ${tableHead}
-                        <div id="packetsTable">
-                            <div id="tableTopGradient"></div>
-                            ${packetsHtml}
-                            <div id="replacer"></div>
-                            <div id="tableBottomGradient"></div>
+    return `<div id="tabWrapper">
+                ${toolbarHtml}
+                <div id="mainGrid">
+                    <div id="packetsWrapper">
+                        <div id="packetsTableWrapper" class="wrapper">
+                            ${tableHead}
+                            <div id="packetsTable">
+                                <div id="tableTopGradient"></div>
+                                ${packetsHtml}
+                                <div id="replacer"></div>
+                                <div id="tableBottomGradient"></div>
+                            </div>
+                        </div>
+                        <div id="packetsScrollBarWrapper">
+                            <div id="packetsScrollBar"></div>
                         </div>
                     </div>
-                    <div id="packetsScrollBarWrapper">
-                        <div id="packetsScrollBar"></div>
+                    <div id="detailsWrapper">
+                        <div id="headersWrapper">
+                            <div id="headerValues"></div>
+                        </div>
+                        <div id="hexWrapper">
+                            <div id="hexNumColumn"></div>
+                            <div id="hexValues"></div>
+                        </div>
                     </div>
-                </div>
-                <div id="detailsWrapper">
-                    <div id="headersWrapper">
-                        <div id="headerValues"></div>
-                    </div>
-                    <div id="hexWrapper">
-                        <div id="hexNumColumn"></div>
-                        <div id="hexValues"></div>
-                    </div>
-                </div>
+                </div>   
             </div>`
 }
 
 
-const packetToHtml = (packet, num, originalSeconds, animate = true) => {
+const packetToHtml = (packet, num, originalSeconds, originalMicroSeconds, animate = true) => {
     return `<div class="packetLine ${animate? "":"static"}" data-packetid="${num}" onclick="selectPacketElement(this)" style="animation-delay: ${Math.min(num * 35, 1000)}ms" data-idx="${num}">
                 <div class="packetCell">
                     <p class="packetNum">${num + 1}</p>
                 </div>
                 <div class="packetCell">
-                    <p class="packetTime">${microToSeconds(packet.header.timestampMicroseconds, packet.header.timestampSeconds, originalSeconds)}</p>
+                    <p class="packetTime">${microToSeconds(packet.header.timestampMicroseconds, packet.header.timestampSeconds, originalSeconds, originalMicroSeconds)}</p>
                 </div>
                 <div class="packetCell">
                     <p class="packetSrc">${packet.ipvx.source}</p>
@@ -90,6 +105,9 @@ const packetToHtml = (packet, num, originalSeconds, animate = true) => {
                 </div>
                 <div class="packetCell">
                     <p class="packetLength">${packet.header.capturedLength}</p>
+                </div>
+                <div class="packetCell">
+                    <p class="packetInfo">${parseInfo(packet)}</p>
                 </div>
                 <div class="packetControls">
                     <span class="material-symbols-outlined copyButton">
@@ -125,8 +143,12 @@ const reparseHtml = (html, { animated }) => {
     return parsedHtml
 }
 
+const microToSeconds = (micro, seconds, original, originalMicro) => {
 
-const microToSeconds = (micro, seconds, original) => {
+    return ((seconds - original) + ((micro - originalMicro) / 1000000)).toFixed(3)
+}
 
-    return ((seconds - original) + (micro / 1000000)).toFixed(3)
+
+const parseInfo = (packet) => {
+    return "cox info"
 }

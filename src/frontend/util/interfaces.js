@@ -47,8 +47,9 @@ const loadInterfaces = async () => {
 const openInterface = async (element) => {
     const thisInterface = interfaces[interfaceNames[element.dataset.id]]
     const thisIp = getIPv4(thisInterface)
+    const ip = thisIp.address
     const filter = 'tcp'
-    const newSubscriberId = await window.API.getNewInstance({thisIp, filter})
+    const newSubscriberId = await window.API.getNewInstance({ip, filter})
 
     const thisActiveIdx = activeTabIdx
 

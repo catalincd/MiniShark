@@ -38,6 +38,12 @@
     }
 }
 
+#tabWrapper{
+    
+    display: grid;
+    grid-template-rows: 3rem auto;
+}
+
 #replacer {
     display: none;
 }

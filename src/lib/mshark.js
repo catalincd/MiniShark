@@ -5,8 +5,11 @@ var capInstances = []
 var lastCap = 0
 
 
-const getNewInstance = (ip = "192.168.1.254", filter = "tcp") => {
+const getNewInstance = (ip, filter = "") => {
+    console.log(ip)
     const device = Cap.findDevice(ip);
+    console.log(device)
+
     const bufSize = 10 * 1024 * 1024;
     var buffer = Buffer.alloc(65535);
     var cap = new Cap();
@@ -49,8 +52,13 @@ const closeInstance = (id) => {
 
     console.log("HANDLE CLOSE")
 
-    capInstances[id].cap.close()
-    capInstances[id] = null
+    try{
+        capInstances[id].cap.close()
+        capInstances[id] = null
+    }
+    catch(ex){
+        console.log(`FAILED CLOSING INSTANCE: ${id}`)
+    }
 }
 
 
