@@ -1,4 +1,5 @@
-var fs = require('fs');
+const fs = require('fs');
+const etherHelper = require('./helpers/etherHelper')
 
 var GLOBAL_HEADER_LENGTH = 24; 
 var PACKET_HEADER_LENGTH = 16; 
@@ -14,12 +15,10 @@ const getHeadersFromData = (packet, encoding = "BE") => {
 
     //check for other stuff like ipv6 here...
     
-    const ipvx = {
-        destination: bytesToIp(packet.subarray(12 + ETHER_SIZE, 16 + ETHER_SIZE)),
-        source: bytesToIp(packet.subarray(16 + ETHER_SIZE, 20 + ETHER_SIZE))
-    }
+    const etherPayload = etherHelper.parseEther(ether.type, packet.slice(ETHER_SIZE));
+    
 
-    return {ether, ipvx}
+    return {ether, ...etherPayload}
 }
 
 const bytesToIp = (xts) => {
@@ -35,6 +34,7 @@ const bytesToIp = (xts) => {
     }
     return ip
 }
+
 
 const bytesToMac = (xts) => {
 
@@ -59,10 +59,7 @@ const readFromFile = (path) => {
 }
 
 
-const readFromBytes = (file) => {
-
-    console.log(file)
-    
+const readFromBytes = (file) => {  
     const magicNumber = file.toString('hex', 0, 4)
     var encoding = "BE"
 
@@ -124,7 +121,7 @@ const bytesToPacket = (bytes, encoding = "BE") => {
         originalLength: bytes['readUInt32' + encoding](12, true)
     };
 
-    const data = bytes.slice(PACKET_HEADER_LENGTH, header.capturedLength)
+    const data = bytes.slice(PACKET_HEADER_LENGTH, header.capturedLength + PACKET_HEADER_LENGTH)
     const headers = getHeadersFromData(data, encoding)
 
     return {header, data, bytes, ...headers}
@@ -165,7 +162,6 @@ exports.packetToBytes = packetToBytes
 exports.readFromBytes = readFromBytes
 exports.readFromFile = readFromFile
 exports.getHeadersFromData = getHeadersFromData
-exports.bytesToIp = bytesToIp
 exports.bytesToMac = bytesToMac
 exports.bytesToPacket = bytesToPacket
 exports.hotFixCapPacket = hotFixCapPacket

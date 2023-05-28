@@ -59,6 +59,11 @@
     background-color: #AAA;
 }
 
+.spacer{
+    height: 1rem;
+    width: 2rem;
+}
+
 .toolbar-button:hover.disabled, .toolbar-button.disabled{
     background-color: #777;
     cursor: default;
@@ -66,5 +71,9 @@
 
 .toolbar-button:hover.disabled > span, .toolbar-button.disabled > span{
     color: black;
+}
+
+.hidden {
+    display: none;
 }
 

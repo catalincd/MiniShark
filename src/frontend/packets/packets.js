@@ -33,6 +33,15 @@ const selectPacket = (idx, activeElement) => {
     hotSelectPacket(idx)
 }
 
+const hexToChar = (hex) => {
+    return String.fromCharCode(parseInt(hex, 16))
+}
+
+const genHexChar = (hex) => {
+    return `<span class="hexSpan">${hex}</span>
+            <span class="charSpan hidden" >${hexToChar(hex)}</span>`
+}
+
 const hotSelectPacket = (idx) => { //////TO DO: add html class to selected element
     activePacketIdx = idx
     hexColumnsElement = document.getElementById("hexNumColumn")
@@ -59,7 +68,7 @@ const hotSelectPacket = (idx) => { //////TO DO: add html class to selected eleme
         currentHexArray = hexArray.slice(0, 16)
         hexArray = hexArray.slice(16)
 
-        hexValueHTML += currentHexArray.map(hex => `<span>${hex}</span>`).join('')
+        hexValueHTML += currentHexArray.map(hex => genHexChar(hex)).join('')
 
         cnt++
     }

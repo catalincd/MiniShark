@@ -101,7 +101,7 @@ const packetToHtml = (packet, num, originalSeconds, originalMicroSeconds, animat
                     <p class="packetDest">${packet.ipvx.destination}</p>
                 </div>
                 <div class="packetCell">
-                    <p class="packetProtocol">${"TCP"}</p>
+                    <p class="packetProtocol">${packet.protocolName}</p>
                 </div>
                 <div class="packetCell">
                     <p class="packetLength">${packet.header.capturedLength}</p>
@@ -150,5 +150,9 @@ const microToSeconds = (micro, seconds, original, originalMicro) => {
 
 
 const parseInfo = (packet) => {
-    return "cox info"
+    if(packet.protocolData && packet.protocolData.info){
+        return packet.protocolData.info
+    }
+
+    return "Application Data"
 }
