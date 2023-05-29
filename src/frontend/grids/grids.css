@@ -16,7 +16,8 @@
 
 #headersWrapper{
     min-width: 35rem;
-    height: 100%;
+    margin-top: 2rem;
+    height: calc(100% - 2rem);
     border-radius: 0.5rem;
     padding: 1rem;
     background-color: #888888;

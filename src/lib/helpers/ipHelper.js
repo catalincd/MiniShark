@@ -1,5 +1,6 @@
 const UDP = require('./protocols/udpHelper')
 const TCP = require('./protocols/tcpHelper')
+const ICMP = require('./protocols/icmpHelper')
 
 const parseProto = (proto) => {
     var name = ""
@@ -26,6 +27,10 @@ const parseIP = (protocol, payload) => {
 
     if(protocolName == "UDP") {
         protocolData = UDP.parse(payload)
+    }
+
+    if(protocolName == "ICMP") {
+        protocolData = ICMP.parse(payload)
     }
 
     if(protocolName == "TCP") {

@@ -48,7 +48,7 @@ const openInterface = async (element) => {
     const thisInterface = interfaces[interfaceNames[element.dataset.id]]
     const thisIp = getIPv4(thisInterface)
     const ip = thisIp.address
-    const filter = 'tcp'
+    const filter = ''
     const newSubscriberId = await window.API.getNewInstance({ip, filter})
 
     const thisActiveIdx = activeTabIdx
@@ -84,28 +84,31 @@ const refreshTab = async (tabIdx) => {
         console.log("NEW ORIGINAL")
         tabsData[tabIdx].data.allPackets = []
         tabsData[tabIdx].originalSeconds = newPackets[0].header.timestampSeconds
+        tabsData[tabIdx].originalMicroSeconds = newPackets[0].header.timestampMicroseconds
         tabsData[tabIdx].lastPacketId = 0
     }
 
     
-    
-    var packetsHtml = ""
+    if(tabsData[tabIdx].capturing)
+    {
+        var packetsHtml = ""
 
-    for(var i=0;i<newPackets.length;i++){
-        packetsHtml += packetToHtml(newPackets[i], tabsData[tabIdx].lastPacketId + i, tabsData[tabIdx].originalSeconds, false)
-        tabsData[tabIdx].data.allPackets.push(newPackets[i])
-    }
+        for(var i=0;i<newPackets.length;i++){
+            packetsHtml += packetToHtml(newPackets[i], tabsData[tabIdx].lastPacketId + i, tabsData[tabIdx].originalSeconds, tabsData[tabIdx].originalMicroSeconds, false)
+            tabsData[tabIdx].data.allPackets.push(newPackets[i])
+        }
 
-    if(newPackets.length > 0){
-        console.log(newPackets)
-        tabsData[tabIdx].html = addHtml(tabsData[tabIdx].html, packetsHtml)
-        tabsData[tabIdx].lastPacketId += newPackets.length
+        if(newPackets.length > 0){
+            console.log(newPackets)
+            tabsData[tabIdx].html = addHtml(tabsData[tabIdx].html, packetsHtml)
+            tabsData[tabIdx].lastPacketId += newPackets.length
 
-        if(activeTabIdx == tabIdx){
-            const packetsTable = document.getElementById("packetsTable")
-            packetsTable.innerHTML += packetsHtml
-            ////revamp
-            packetsTable.scrollTo(0, packetsTable.scrollHeight);
+            if(activeTabIdx == tabIdx){
+                const packetsTable = document.getElementById("packetsTable")
+                packetsTable.innerHTML += packetsHtml
+                ////revamp
+                packetsTable.scrollTo(0, packetsTable.scrollHeight);
+            }
         }
     }
 

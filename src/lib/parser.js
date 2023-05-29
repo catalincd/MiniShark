@@ -124,7 +124,7 @@ const bytesToPacket = (bytes, encoding = "BE") => {
     const data = bytes.slice(PACKET_HEADER_LENGTH, header.capturedLength + PACKET_HEADER_LENGTH)
     const headers = getHeadersFromData(data, encoding)
 
-    return {header, data, bytes, ...headers}
+    return {header, data, ...headers}
 }
 
 const pcapToBytes = (header, packets, encoding = "BE") => {

@@ -64,6 +64,7 @@ const parseLoadedBytes = async (xts) => {
     const parsed = await window.API.readPcapBytes(xts)
 
     tabsData[activeTabIdx].data = parsed
+    tabsData[activeTabIdx].static = true
     console.log(tabsData[activeTabIdx].data)
     tabsData[activeTabIdx].html = getHtmlFromData(parsed)
     
@@ -103,6 +104,8 @@ const selectTab = (idx) => {
         }
     }
 
+    if(tabsData[activeTabIdx].static)
+        disableStartStop()
 }
 
 const setCurrentPacketSelected = (idx) => {

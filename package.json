@@ -19,7 +19,8 @@
   "license": "MIT",
   "dependencies": {
     "cap": "^0.2.1",
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "node-file-dialog": "^1.0.3"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.5",

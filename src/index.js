@@ -1,10 +1,11 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, remote } = require('electron');
 const { fstat } = require('node:fs');
 const os = require('node:os');
 const path = require('path');
 const fs = require('fs');
 const mshark = require('./lib/mshark')
 const parser = require('./lib/parser')
+const exporter = require('./lib/exporter')
 
 if (require('electron-squirrel-startup')) {
   app.quit();
@@ -36,6 +37,7 @@ const handleReadStringFile = (event, data) => {
 const handleNewInstance = (event, {ip, filter}) => mshark.getNewInstance(ip, filter)
 const handleInstacePackets = (event, id) => mshark.getPackets(id)
 const handleCloseInstance = (event, id) => mshark.closeInstance(id)
+const handleSavePCAP = (event, pcap) => exporter.saveFile(pcap)
 
 
 
@@ -44,9 +46,12 @@ app.whenReady().then(() => {
   ipcMain.handle('os:readStringFile', handleReadStringFile)
   ipcMain.handle('os:readFile', handleReadFile)
   ipcMain.handle('os:readPcapBytes', handleReadPcapBytes)
+  ipcMain.handle('os:savePCAP', handleSavePCAP)
+  
   ipcMain.handle('net:getNewInstance', handleNewInstance)
   ipcMain.handle('net:getInstacePackets', handleInstacePackets)
   ipcMain.handle('net:closeInstance', handleCloseInstance)
+  
 
   createWindow()
   app.on('activate', function () {

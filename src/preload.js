@@ -7,6 +7,7 @@ contextBridge.exposeInMainWorld('API',{
   readStringFile: (path) => ipcRenderer.invoke('os:readStringFile', path),
   readPcapFile: (path) => ipcRenderer.invoke('os:readFile', path),
   readPcapBytes: (xts) => ipcRenderer.invoke('os:readPcapBytes', xts),
+  savePCAP: (pcap) => ipcRenderer.invoke('os:savePCAP', pcap),
 
   getNewInstance: (data) => ipcRenderer.invoke('net:getNewInstance', data),
   getInstacePackets: (data) => ipcRenderer.invoke('net:getInstacePackets', data),

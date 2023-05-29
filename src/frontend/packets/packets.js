@@ -38,8 +38,12 @@ const hexToChar = (hex) => {
 }
 
 const genHexChar = (hex) => {
-    return `<span class="hexSpan">${hex}</span>
-            <span class="charSpan hidden" >${hexToChar(hex)}</span>`
+
+    const hexHidden = CHAR_VIEW? "hidden":""
+    const charHidden = CHAR_VIEW? "":"hidden"
+
+    return `<span class="hexSpan ${hexHidden}">${hex}</span>
+            <span class="charSpan ${charHidden}" >${hexToChar(hex)}</span>`
 }
 
 const hotSelectPacket = (idx) => { //////TO DO: add html class to selected element
@@ -54,6 +58,16 @@ const hotSelectPacket = (idx) => { //////TO DO: add html class to selected eleme
     // console.log(data)
     setCurrentPacketSelected(idx)
 
+    const packetLineElements = document.getElementsByClassName("packetLine")
+    for(var i=0;i<packetLineElements.length;i++)
+    {
+        if(packetLineElements[i].dataset.packetid == idx)
+        {
+            packetLineElements[i].classList.add("active")
+            break
+        }
+    }
+    
 
     //hex
     var hexArray = buf2hex(thisPacket.data)
@@ -78,10 +92,15 @@ const hotSelectPacket = (idx) => { //////TO DO: add html class to selected eleme
 
     hexValuesElement.innerHTML = hexValueHTML
 
-    //headers
+    //headers 
 
+    headersElement.innerHTML = parseHeaders(thisPacket)
+}
+
+
+const parseHeaders = (thisPacket) => {
     var headersHTML = ""
-
+    
     headersHTML += "<p>Ethernet II</p>"
     headersHTML += `<ul class="headersList">
                         <li>Destination: ${thisPacket.ether.destination}</li>
@@ -95,9 +114,8 @@ const hotSelectPacket = (idx) => { //////TO DO: add html class to selected eleme
                         <li>Source: ${thisPacket.ipvx.source}</li>
                     </ul>`
 
-    headersElement.innerHTML = headersHTML
+    return headersHTML
 }
-
 
 const matchType = (type) => {
     if (type == "0800")

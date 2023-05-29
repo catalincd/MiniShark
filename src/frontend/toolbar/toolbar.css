@@ -10,7 +10,7 @@
 
 .toolbar-item{
     height: 3rem;
-    margin-right: 1rem;
+    margin-right: 0.5rem;
 }
 
 .toolbar-search-wrapper{
@@ -61,7 +61,7 @@
 
 .spacer{
     height: 1rem;
-    width: 2rem;
+    width: 3.5rem;
 }
 
 .toolbar-button:hover.disabled, .toolbar-button.disabled{
@@ -70,7 +70,7 @@
 }
 
 .toolbar-button:hover.disabled > span, .toolbar-button.disabled > span{
-    color: black;
+    color: #333;
 }
 
 .hidden {

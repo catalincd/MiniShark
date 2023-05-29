@@ -7,25 +7,25 @@
             search
         </span>
     </div>
-    <div class="toolbar-item toolbar-button">
-        <span class="material-symbols-outlined disabled" style="color: red">
+    <div class="toolbar-item toolbar-button" style="color: white">
+        <span class="material-symbols-outlined disabled">
             close
         </span>
     </div>
 
     <div class="spacer"></div>
 
-    <div class="toolbar-item toolbar-button">
-        <span class="material-symbols-outlined" style="color: limegreen">
+    <div id="startCapButton" class="toolbar-item toolbar-button disabled" style="color: DodgerBlue" onclick="startCapturing(this)">
+        <span class="material-symbols-outlined">
             play_circle
         </span>
     </div>
-    <div class="toolbar-item toolbar-button disabled" style="color: red">
+    <div id="stopCapButton" class="toolbar-item toolbar-button" style="color: red" onclick="stopCapturing(this)">
         <span class="material-symbols-outlined">
             stop_circle
         </span>
     </div>
-    <div class="toolbar-item toolbar-button" style="color: white">
+    <div class="toolbar-item toolbar-button" style="color: white" onclick="saveCurrentTab()">
         <span class="material-symbols-outlined">
             save_as
         </span>
@@ -43,11 +43,6 @@
     <div class="toolbar-item toolbar-button" style="color: white" onclick="zoomOut()">
         <span class="material-symbols-outlined">
             zoom_out
-        </span>
-    </div>
-    <div class="toolbar-item toolbar-button" style="color: white">
-        <span class="material-symbols-outlined">
-            stars
         </span>
     </div>
 </div>

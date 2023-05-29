@@ -1,5 +1,38 @@
 var CHAR_VIEW = false
 
+
+const saveCurrentTab = async () => {
+    await window.API.savePCAP(tabsData[activeTabIdx].data)
+}
+
+
+const disableStartStop = () => {
+    document.getElementById("startCapButton").classList.add("disabled")
+    document.getElementById("stopCapButton").classList.add("disabled")
+}
+
+const stopCapturing = (button) => {
+
+    if(button.classList.contains("disabled"))
+        return
+
+    tabsData[activeTabIdx].capturing = false
+
+    document.getElementById("startCapButton").classList.remove("disabled")
+    document.getElementById("stopCapButton").classList.add("disabled")
+}
+
+const startCapturing = (button) => {
+    if(button.classList.contains("disabled"))
+        return
+
+    tabsData[activeTabIdx].capturing = true
+
+    document.getElementById("startCapButton").classList.add("disabled")
+    document.getElementById("stopCapButton").classList.remove("disabled")
+}
+
+
 const zoomIn = () => {
     const html = document.getElementsByTagName('html')[0];
     const style = window.getComputedStyle(html, null).getPropertyValue('font-size');
@@ -26,17 +59,16 @@ const toggleCharView = () => {
 
     if(CHAR_VIEW){
         for(var i=0;i<chars.length;i++)
-            chars[i].classList.add("hidden")
-
-        for(var i=0;i<hexes.length;i++)
-            hexes[i].classList.remove("hidden")
-    }else{
-        
-        for(var i=0;i<chars.length;i++)
             chars[i].classList.remove("hidden")
 
         for(var i=0;i<hexes.length;i++)
             hexes[i].classList.add("hidden")
+    }else{
+        for(var i=0;i<chars.length;i++)
+            chars[i].classList.add("hidden")
+
+        for(var i=0;i<hexes.length;i++)
+            hexes[i].classList.remove("hidden")
     }
 }
 
