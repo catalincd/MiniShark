@@ -98,6 +98,68 @@ const hotSelectPacket = (idx) => { //////TO DO: add html class to selected eleme
 }
 
 
+const parseIPv4 = (ipvx) => {
+    var ipv4HTML = ""
+
+    ipv4HTML += "<br><p>IPv4</p>"
+    ipv4HTML += `<ul class="headersList">
+                        <li>Header Checksum: 0x${ipvx.headerChecksum.toUpperCase()}</li>
+                        <li>Identification: 0x${ipvx.identification.toUpperCase()}</li>
+                        <li>Time to live: ${ipvx.ttl}</li>
+                        <li>Destination: ${ipvx.destination}</li>
+                        <li>Source: ${ipvx.source}</li>
+                    </ul>`
+
+    return ipv4HTML
+}
+
+
+const parseUDP = (protocolData) => {
+    var udpHTML = ""
+    
+    udpHTML += "<p>User Datagram Protocol</p>"
+    udpHTML += `<ul class="headersList">
+                    <li>Source Port: ${protocolData.source}</li>
+                    <li>Destination Port: ${protocolData.destination}</li>
+                    <li>Length: ${protocolData.length}</li>
+                    <li>Checksum: 0x${protocolData.checksum}</li>
+                </ul>`
+
+    return udpHTML
+}
+
+const parseTCP = (protocolData) => {
+    var tcpHTML = ""
+    
+    tcpHTML += "<p>Transmission Control Protocol</p>"
+    tcpHTML += `<ul class="headersList">
+                    <li>Source Port: ${protocolData.source}</li>
+                    <li>Destination Port: ${protocolData.destination}</li>
+                    <li>Checksum: 0x${protocolData.checkSum.toUpperCase()}</li>
+                    <li>Sequence Number: 0x${protocolData.sequenceNumber}</li>
+                    <li>Acknolegdement Number: 0x${protocolData.ackNumber}</li>
+                    <li>Urgent Pointer: 0x${protocolData.urgentPointer}</li>
+                    <li>Window: 0x${protocolData.windowSize}</li>
+                    <li>Flags: ${""}</li>
+                </ul>`
+
+    return tcpHTML
+}
+
+const parseICMP = (protocolData) => {
+    var icmpHTML = ""
+    
+    icmpHTML += "<p>Internet Control Message Protocol</p>"
+    icmpHTML += `<ul class="headersList">
+                    <li>Type: 0x${protocolData.type.toUpperCase()}</li>
+                    <li>Code: 0x${protocolData.code.toUpperCase()}</li>
+                    <li>Checksum: 0x${protocolData.checkSum}</li>
+                </ul>`
+
+    return icmpHTML
+}
+
+
 const parseHeaders = (thisPacket) => {
     var headersHTML = ""
     
@@ -108,11 +170,21 @@ const parseHeaders = (thisPacket) => {
                         <li>Type: ${matchType(thisPacket.ether.type)}</li>
                     </ul>`
 
-    headersHTML += "<br><p>IPv4</p>"
-    headersHTML += `<ul class="headersList">
-                        <li>Destination: ${thisPacket.ipvx.destination}</li>
-                        <li>Source: ${thisPacket.ipvx.source}</li>
-                    </ul>`
+    if(thisPacket.ipvx.type == 4){
+        headersHTML += parseIPv4(thisPacket.ipvx)
+    }
+
+    if(thisPacket.protocolName == "UDP"){
+        headersHTML += parseUDP(thisPacket.protocolData.header)
+    }
+
+    if(thisPacket.protocolName == "TCP"){
+        headersHTML += parseTCP(thisPacket.protocolData.header)
+    }
+
+    if(thisPacket.protocolName == "ICMP"){
+        headersHTML += parseICMP(thisPacket.protocolData.header)
+    }
 
     return headersHTML
 }

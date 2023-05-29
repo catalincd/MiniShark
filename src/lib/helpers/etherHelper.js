@@ -28,6 +28,9 @@ const parseEther = (type, payload) => {
             source: bytesToIp(payload.subarray(12, 16)),
             destination: bytesToIp(payload.subarray(16, 20)),
             protocol: PROTO,
+            headerChecksum: payload.subarray(10, 12).toString('hex'),
+            ttl: parseInt(payload.subarray(8, 9).toString('hex'), 16),
+            identification: payload.subarray(4, 6).toString('hex'),
             type: 4
         }
     }

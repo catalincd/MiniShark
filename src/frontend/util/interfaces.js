@@ -58,7 +58,7 @@ const openInterface = async (element) => {
 
     setTabTitle(thisActiveIdx, interfaceNames[element.dataset.id])
 
-    tabsData[thisActiveIdx].data = []
+    tabsData[thisActiveIdx].data = {}
     tabsData[thisActiveIdx].html = getHtmlFromData(null)
     
     tabsData[thisActiveIdx].animated = false
@@ -110,6 +110,9 @@ const refreshTab = async (tabIdx) => {
                 packetsTable.scrollTo(0, packetsTable.scrollHeight);
             }
         }
+
+
+        filterPacketsSearch(null)
     }
 
     

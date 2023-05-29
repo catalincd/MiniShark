@@ -9,17 +9,28 @@ const encoding = "LE"
 
 
 const dataToPacketBytes = (data, packetHeader) => {
-    var header = Buffer.alloc(PACKET_HEADER_LENGTH)
+    var finalBuffer = null;
+    try{
+        var header = Buffer.alloc(PACKET_HEADER_LENGTH)
 
-    header['writeUInt32' + encoding](packetHeader.timestampSeconds, 0)
-    header['writeUInt32' + encoding](packetHeader.timestampMicroseconds, 4)
-    header['writeUInt32' + encoding](packetHeader.capturedLength, 8)
-    header['writeUInt32' + encoding](packetHeader.originalLength, 12)
+        header['writeUInt32' + encoding](packetHeader.timestampSeconds, 0)
+        header['writeUInt32' + encoding](packetHeader.timestampMicroseconds, 4)
+        header['writeUInt32' + encoding](packetHeader.capturedLength, 8)
+        header['writeUInt32' + encoding](packetHeader.originalLength, 12)
+        
+        finalBuffer = Buffer.concat([header, Buffer.from(data)])
+    }
+    catch(ex){
+        console.log("FAILED PARSING PACKET")
+    }
 
-    return Buffer.concat([header, Buffer.from(data)])
+    return finalBuffer
 }
 
 const dataToBytes = (data) => {
+
+    console.log("COXLINE")
+    console.log(data)
     
     var header = Buffer.alloc(GLOBAL_HEADER_LENGTH)
 
@@ -34,9 +45,6 @@ const dataToBytes = (data) => {
     header['writeUInt32' + encoding](262144, 16)
     header['writeUInt32' + encoding](1, 20)
 
-
-    console.log(data.allPackets[0])
-    console.log(dataToPacketBytes(data.allPackets[0].data, data.allPackets[0].header))
 
     var packets = data.allPackets.map(x => dataToPacketBytes(x.data, x.header))
 

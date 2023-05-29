@@ -71,6 +71,7 @@ const parseLoadedBytes = async (xts) => {
 
     selectTab(activeTabIdx)
     tabsData[activeTabIdx].animated = false
+
 }
 
 

@@ -47,8 +47,10 @@ exports.parse = (payload) => {
         source: payload["readUInt16BE"](0),
         destination: payload["readUInt16BE"](2),
         windowSize: payload["readUInt16BE"](14),
-        checkSum: payload["readUInt16BE"](16),
+        checkSum: payload.subarray(12, 14).toString('hex'),
         urgentPointer: payload["readUInt16BE"](18),
+        sequenceNumber: payload["readUInt32BE"](4),
+        ackNumber: payload["readUInt32BE"](8),
         flags: getTCPFlags(payload.subarray(12, 14)),
     }
 

@@ -38,6 +38,10 @@
     outline: none;
 }
 
+.toolbar-search:focus.failed, .toolbar-search.failed{
+    background-color: #a05b5b;
+}  
+
 .toolbar-button > span {
     font-size: 1.75rem;
     font-weight: 300;

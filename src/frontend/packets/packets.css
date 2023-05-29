@@ -102,6 +102,10 @@
     opacity: 1;
 }
 
+.packetLine.filtered{
+    display: none;
+}
+
 .packetLine>.packetControls{
     display: none;
     width: 3%;

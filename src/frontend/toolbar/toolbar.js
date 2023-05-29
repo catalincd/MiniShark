@@ -1,7 +1,59 @@
 var CHAR_VIEW = false
 
 
+
+const clearSearchBar = (element) => {
+    const searchBar = document.getElementById("filter_input")
+    searchBar.value = ""
+
+    filterPacketsSearch(element)
+}
+
+const filterPacketsSearch = (element) => {
+    const allPacketLines = document.getElementsByClassName("packetLine")
+    const searchBar = document.getElementById("filter_input")
+    const filter = searchBar.value
+    
+
+    searchBar.classList.remove("failed")
+
+    if(allPacketLines == null){
+        return
+    }
+
+    if(filter.length < 1 || filter == "" || filter == "Display filter..."){
+        for(var i=0;i<allPacketLines.length;i++)
+            allPacketLines[i].classList.remove("filtered")
+        
+        return
+    }
+
+    const filteredPacketIds = filterPacketsArray(tabsData[activeTabIdx].data.allPackets, filter) 
+
+    try{
+        for(var i=0;i<allPacketLines.length;i++){
+            const thisId = parseInt(allPacketLines[i].dataset.idx)
+    
+            if(filteredPacketIds.includes(thisId)){
+                allPacketLines[i].classList.remove("filtered")
+            }else{
+                allPacketLines[i].classList.add("filtered")
+            }
+            
+            console.log(`THIS ID: ${thisId}`)
+        }
+    }
+    catch(ex){
+        console.log(filter)
+        searchBar.classList.add("failed")
+    }
+
+
+}
+
+
 const saveCurrentTab = async () => {
+    console.log(tabsData[activeTabIdx])
     await window.API.savePCAP(tabsData[activeTabIdx].data)
 }
 

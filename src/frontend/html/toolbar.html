@@ -2,12 +2,12 @@
     <div class="toolbar-item toolbar-search-wrapper">
         <input onfocus="focusToolbar(this)" onchange="changeToolbar(this)" value="Display filter..." placeholder="Display filter..." type="text" id="filter_input" class="toolbar-search notchanged" name="filter_input">
     </div>
-    <div class="toolbar-item toolbar-button">
+    <div class="toolbar-item toolbar-button" onclick="filterPacketsSearch(this)">
         <span class="material-symbols-outlined" style="color: white">
             search
         </span>
     </div>
-    <div class="toolbar-item toolbar-button" style="color: white">
+    <div class="toolbar-item toolbar-button" style="color: white" onclick="clearSearchBar(this)">
         <span class="material-symbols-outlined disabled">
             close
         </span>
@@ -43,6 +43,16 @@
     <div class="toolbar-item toolbar-button" style="color: white" onclick="zoomOut()">
         <span class="material-symbols-outlined">
             zoom_out
+        </span>
+    </div>
+    <div class="toolbar-item toolbar-button" style="color: white" onclick="zoomOut()">
+        <span class="material-symbols-outlined">
+            undo
+        </span>
+    </div>
+    <div class="toolbar-item toolbar-button" style="color: white" onclick="zoomOut()">
+        <span class="material-symbols-outlined">
+            content_paste_go
         </span>
     </div>
 </div>

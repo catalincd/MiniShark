@@ -8,7 +8,7 @@ exports.parse = (payload) => {
         source: payload["readUInt16BE"](0, true),
         destination: payload["readUInt16BE"](2, true),
         length: payload["readUInt16BE"](4, true),
-        checksum: payload["readUInt16BE"](6, true)
+        checksum: payload.subarray(6, 8).toString('hex')
     }
 
     const info = getInfo(header)
