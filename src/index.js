@@ -21,6 +21,7 @@ const createWindow = () => {
       contextIsolation: true,
       sandbox: false
     },
+    autoHideMenuBar: true,
   });
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));

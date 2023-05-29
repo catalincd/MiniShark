@@ -1,17 +1,22 @@
 <div id="newTabWrapper">
-    <div id="openFileWrapper">
-        <form class="openFileForm" action="" method="">
-            <label class="fileLabel">
-                <input type="file" required onchange="selectFile(this)" />
-                <span class="material-symbols-outlined">
-                    folder_open
-                    </span>
-                <span>Open PCAP</span>
-            </label>
-        </form>
+    <div id="logoWrapper">
+        <h1>Mini<span>Shark</span></h1>
     </div>
-    
-    <div id="chooseInterfaceWrapper">
-        <div id="deviceList"></div>
+    <div id="buttonsWrapper">
+        <div id="chooseInterfaceWrapper">
+            <div id="deviceList"></div>
+        </div>
+
+        <div id="openFileWrapper">
+            <form class="openFileForm" action="" method="">
+                <label class="fileLabel">
+                    <input type="file" required onchange="selectFile(this)" />
+                    <span class="material-symbols-outlined">
+                        folder_open
+                        </span>
+                    <span>Open PCAP File</span>
+                </label>
+            </form>
+        </div>
     </div>
 </div>

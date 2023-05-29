@@ -28,8 +28,15 @@
     font-size: 1rem;
 }
 
-#headersList{
-    line-height: 1.15rem;
+.headersList{
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.headerTitle{
+    font-weight: bolder;
+    font-size: 1.25rem;
+    margin-bottom: 0rem;
 }
 
 #headersList > li {

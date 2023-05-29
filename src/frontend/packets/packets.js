@@ -101,7 +101,7 @@ const hotSelectPacket = (idx) => { //////TO DO: add html class to selected eleme
 const parseIPv4 = (ipvx) => {
     var ipv4HTML = ""
 
-    ipv4HTML += "<br><p>IPv4</p>"
+    ipv4HTML += "<p class='headerTitle'>IPv4</p>"
     ipv4HTML += `<ul class="headersList">
                         <li>Header Checksum: 0x${ipvx.headerChecksum.toUpperCase()}</li>
                         <li>Identification: 0x${ipvx.identification.toUpperCase()}</li>
@@ -117,7 +117,7 @@ const parseIPv4 = (ipvx) => {
 const parseUDP = (protocolData) => {
     var udpHTML = ""
     
-    udpHTML += "<p>User Datagram Protocol</p>"
+    udpHTML += "<p class='headerTitle'>User Datagram Protocol</p>"
     udpHTML += `<ul class="headersList">
                     <li>Source Port: ${protocolData.source}</li>
                     <li>Destination Port: ${protocolData.destination}</li>
@@ -131,7 +131,7 @@ const parseUDP = (protocolData) => {
 const parseTCP = (protocolData) => {
     var tcpHTML = ""
     
-    tcpHTML += "<p>Transmission Control Protocol</p>"
+    tcpHTML += "<p class='headerTitle'>Transmission Control Protocol</p>"
     tcpHTML += `<ul class="headersList">
                     <li>Source Port: ${protocolData.source}</li>
                     <li>Destination Port: ${protocolData.destination}</li>
@@ -149,7 +149,7 @@ const parseTCP = (protocolData) => {
 const parseICMP = (protocolData) => {
     var icmpHTML = ""
     
-    icmpHTML += "<p>Internet Control Message Protocol</p>"
+    icmpHTML += "<p class='headerTitle'>Internet Control Message Protocol</p>"
     icmpHTML += `<ul class="headersList">
                     <li>Type: 0x${protocolData.type.toUpperCase()}</li>
                     <li>Code: 0x${protocolData.code.toUpperCase()}</li>
@@ -163,7 +163,7 @@ const parseICMP = (protocolData) => {
 const parseHeaders = (thisPacket) => {
     var headersHTML = ""
     
-    headersHTML += "<p>Ethernet II</p>"
+    headersHTML += "<p class='headerTitle'>Ethernet II</p>"
     headersHTML += `<ul class="headersList">
                         <li>Destination: ${thisPacket.ether.destination}</li>
                         <li>Source: ${thisPacket.ether.source}</li>

@@ -38,6 +38,22 @@
     }
 }
 
+h1{
+    font-weight: lighter;
+    color: white;
+    font-size: 3.5rem;
+}
+
+h1 > span{
+    font-weight: bolder;
+}
+
+#logoWrapper{
+    display: grid;
+    justify-content: center;
+    align-content: center;
+}
+
 #tabWrapper{
     
     display: grid;
@@ -170,20 +186,36 @@
     align-items: center;
 }
 
-#openFileWrapper {
+#buttonsWrapper{
+    width: 100%;
     height: 100%;
-    width: 50%;
     display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
     justify-content: center;
     align-items: center;
 }
 
-#chooseInterfaceWrapper {
+#openFileWrapper {
     height: 100%;
-    width: 50%;
-    display: grid;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+}
+
+.openFileForm{
+    width: 30rem;
+    padding: 5rem 5rem;
+}
+
+#chooseInterfaceWrapper {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    justify-content: center;
+    align-content: center;
 }
 
 
@@ -219,6 +251,11 @@ label.fileLabel input[type="file"] {
 
 .fileLabel:valid+span {
     color: #ffffff;
+}
+
+.fileLabel > span{
+    text-align: center;
+    width: 100%;
 }
 
 #deviceList{
